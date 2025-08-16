@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const {errfunction}= require('./middleware')
+const { errfunction } = require("./middleware");
 // app.use("/", (req, res) => {
 //   res.send("hello ");
 // });// default router also it handle all method with it
@@ -65,41 +65,48 @@ app.use(
 // second way
 
 app.use("/admin/", (req, res, next) => {
-
-  const token = "xhhlkjlk"
+  const token = "xhhlkjlk";
   const isAdminAuth = token === "xhhlkjlk";
   if (!isAdminAuth) {
-    res.status(400)
+    res.status(400);
   } else {
-    res.status(200)
-     next();
+    res.status(200);
+    next();
   }
- 
-
-}
-)
-
-
-app.get("/admin/getalldata", (req, res) => {
-  res.send("all data sent")
-})
-
-app.get("/admin/deletedata", (req, res) => {
-    res.send("all data delete");
 });
 
+app.get("/admin/getalldata", (req, res) => {
+  res.send("all data sent");
+});
+
+app.get("/admin/deletedata", (req, res) => {
+  res.send("all data delete");
+});
 
 // third way
 
 app.use("/useError/", errfunction);
-app.get("/useError/getalldata",(req, res) => {
-  res.send("all data error")
+app.get("/useError/getalldata", (req, res) => {
+  res.send("all data error");
 });
 
 app.get("/useError/deletedata", (req, res) => {
   res.send("all data delete");
 });
 
+// fourth way
+app.get("/useError/editdata", errfunction, (req, res) => {
+  res.send("all data edit");
+});
+
+// for errer also
+app.use("/", (err, req, res, next) => {
+  if (err) {
+    res.satus(500).send("something went wrong");
+  } else {
+    next();
+  }
+});
 const port = 8080;
 app.listen(port, () => {
   console.log("server start at port:", port);
