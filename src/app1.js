@@ -3,6 +3,7 @@ const express = require("express");
 const app = express();
 const { connectionDB } = require("./database");
 const { UserModel } = require("./schema");
+const { renderSync } = require("sass");
 
 const port = 8000;
 
@@ -17,6 +18,34 @@ app.post("/insertuserdata", async (req, res) => {
     console.log(user);
   } catch (err) {
     res.status(400).send("error saving the user" + err.message);
+  }
+});
+
+//get all the data from the users
+app.get("/getuserdata", async (req, res) => {
+  try {
+    const user = await UserModel.find({})
+    res.send(user);
+  } catch (err) {
+    res.status(400).send("something went wrong")
+    
+  }
+});
+
+// find one data from the user by mail 
+app.get("/user", async (req, res) => {
+  const usermail = req.body.email;
+  try {
+    const user = await UserModel.findOne({ email: usermail });
+    if (user.length === 0) {
+      res.status(404).send("user not found");
+    } else {
+       res.send(user);
+    }
+
+   
+  } catch (err) {
+    res.status(400).send("something went wrong");
   }
 });
 connectionDB()
