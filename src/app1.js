@@ -21,6 +21,7 @@ app.post("/insertuserdata", async (req, res) => {
   }
 });
 
+
 //get all the data from the users
 app.get("/getuserdata", async (req, res) => {
   try {

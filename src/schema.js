@@ -3,16 +3,19 @@ const { types } = require("sass");
 const userSchema = mongoose.Schema({
   firstName: {
     type: String,
+    required: true,
   },
   lastName: {
     type: String,
   },
   email: {
     type: String,
+    required: true,
+    unique: true,
   },
   password: {
-      type: String,
-      
+    type: String,
+    required: true,
   },
   age: {
     tpye: Number,
@@ -22,6 +25,5 @@ const userSchema = mongoose.Schema({
   },
 });
 
-
-const UserModel= mongoose.model("User", userSchema);
-module.exports ={UserModel}
+const UserModel = mongoose.model("User", userSchema);
+module.exports = { UserModel };
